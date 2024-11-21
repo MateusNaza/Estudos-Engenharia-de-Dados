@@ -1,3 +1,0 @@
-airflow-docker/logs/
-airflow-docker/.env
-airflow-docker/dags/__pycache__/
