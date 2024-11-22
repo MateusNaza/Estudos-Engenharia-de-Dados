@@ -1,6 +1,6 @@
 # Airflow Step by Step
 
-# Instalação - [Running Airflow 2.0 with Docker in 5 mins](https://www.youtube.com/watch?v=aTaytcxy2Ck)
+# Instalação
 
 ```bash
 # Install
@@ -29,7 +29,7 @@ docker-compose up
 
 Ele está rodando na porta 8080, olha que bizarro
 
-# Primeira DAG - [Airflow DAG: Coding your first DAG for Beginners](https://www.youtube.com/watch?v=IH1-0hwFZRQ)
+# Primeira DAG
 
 <img src="https://github.com/MateusNaza/Estudos-Engenharia-de-Dados/blob/main/airflow-docker/assets/image%201.png" alt="Texto Alternativo" width="900">
 
