@@ -27,11 +27,10 @@ docker-compose up
 
 <img src="https://github.com/MateusNaza/Estudos-Engenharia-de-Dados/blob/main/airflow-docker/assets/image.png" alt="Texto Alternativo" width="900">
 
-Ele está rodando na porta 8080, olha que bizarro
 
 # Primeira DAG
 
 <img src="https://github.com/MateusNaza/Estudos-Engenharia-de-Dados/blob/main/airflow-docker/assets/image%201.png" alt="Texto Alternativo" width="900">
 
-> Essa acima é minha primeira DAG, ela inicia rodando em paralelo 3 funções python que retornam um número simbolizando a acurácia de um modelo de Machine Learning. Em seguida ela efetua uma outra função python que verifica qual dos três modelos obteve uma maior pontuação e por fiz chama outras duas funções, dessa vez de bash, para informar se o modelo ficou dentro da acurácia desejada ou não.
+> Essa acima é minha primeira DAG, ela inicia rodando em paralelo 3 funções python que retornam um número simbolizando a acurácia de um modelo de Machine Learning. Em seguida ela efetua uma outra função python que verifica qual dos três modelos obteve uma maior pontuação e por fim chama outras duas funções, dessa vez de bash, para informar se o modelo ficou dentro da acurácia desejada ou não.
 >
