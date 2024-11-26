@@ -8,15 +8,15 @@ class Blockchain:
     def __init__(self):
         self.chain = []
         self.current_transactions = []
-        self.new_block(previous_hash='1', proof=100)  # Criação do bloco Gênesis
+        self.new_block(previous_hash='1', nounce=100)  # Criação do bloco Gênesis
 
-    def new_block(self, proof, previous_hash=None):
+    def new_block(self, nounce, previous_hash=None):
         # Estrutura do bloco
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
             'transactions': self.current_transactions,
-            'proof': proof,
+            'nounce': nounce,
             'previous_hash': previous_hash or self.hash(self.chain[-1])  # Ele pega o hash do bloco anterior automaticamente se precisar
         }
 
@@ -49,15 +49,15 @@ class Blockchain:
     def last_block(self):
         return self.chain[-1]
 
-    def proof_of_work(self, last_proof):
-        proof = 0
-        while self.valid_proof(last_proof, proof) is False:
-            proof += 1
-        return proof
+    def nounce_of_work(self, last_nounce):
+        nounce = 0
+        while self.valid_nounce(last_nounce, nounce) is False:
+            nounce += 1
+        return nounce
 
     @staticmethod
-    def valid_proof(last_proof, proof):
-        guess = f'{last_proof}{proof}'.encode()
+    def valid_nounce(last_nounce, nounce):
+        guess = f'{last_nounce}{nounce}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == '0000'  # Aqui é definido a regra de como o hash deve começar
 
@@ -71,8 +71,8 @@ blockchain = Blockchain()
 def mine():
     # Executa o algoritmo de prova de trabalho para obter a próxima prova
     last_block = blockchain.last_block
-    last_proof = last_block['proof']
-    proof = blockchain.proof_of_work(last_proof)
+    last_nounce = last_block['nounce']
+    nounce = blockchain.nounce_of_work(last_nounce)
 
     # Precisamos receber uma recompensa por encontrar a prova
     # O remetente é "0" para significar que este nó minerou uma nova moeda
@@ -84,13 +84,13 @@ def mine():
 
     # Adiciona o novo bloco à cadeia
     previous_hash = blockchain.hash(last_block)
-    block = blockchain.new_block(proof, previous_hash)
+    block = blockchain.new_block(nounce, previous_hash)
 
     response = {
         'message': "Novo Bloco Forjado",
         'index': block['index'],
         'transactions': block['transactions'],
-        'proof': block['proof'],
+        'nounce': block['nounce'],
         'previous_hash': block['previous_hash'],
     }
     return jsonify(response), 200
