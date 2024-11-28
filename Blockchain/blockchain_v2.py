@@ -67,22 +67,8 @@ class Blockchain:
         })
 
         # Retorna o índice do bloco onde será armazenada essa transação
-        return self.chain[0]
+        return self.chain[-1]['index'] + 1
     
-# Criando uma instância da Blockchain
-bloco = Blockchain()
-bloco.new_transaction('Mateus', 'Larissa', 20)
-bloco.new_transaction('Mateus', 'Larissa', 1)
-bloco.new_transaction('Mateus', 'Larissa', 99)
-bloco_1 = bloco.mine_block()
-bloco.new_transaction('Bob', 'Larissa', 20)
-bloco.new_transaction('Mateus', 'Bob', 1)
-bloco.new_transaction('Mateus', 'Bob', 99)
-bloco_2 = bloco.mine_block()
-bloco_2 = bloco.mine_block()
-bloco_4 = bloco.mine_block()
 
 
-print(json.dumps(bloco.chain, sort_keys=True))
-print(f'\n\n\n{bloco.hash('')}')
 
