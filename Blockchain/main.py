@@ -1,5 +1,5 @@
 import fastapi
-import blockchain_v2 as blockchain
+import Blockchain as blockchain
 
 bc = blockchain.Blockchain()
 app = fastapi.FastAPI()
