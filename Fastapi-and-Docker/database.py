@@ -28,6 +28,4 @@ def testar_conexao(database_url):
     except Exception as e:
         print(f"Erro ao conectar: {e}")
 
-# Exemplo de uso
-DATABASE_URL = "postgresql://mateusnaza:password@localhost/fastapi_db"
 
