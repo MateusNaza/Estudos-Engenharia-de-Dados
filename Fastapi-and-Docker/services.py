@@ -31,12 +31,12 @@ async def create_contact(
     db.add(contact)
     db.commit()
     db.refresh(contact)
-    return _sch.Contact.from_orm(contact)
+    return _sch.Contact.model_validate(contact)
 
 
 async def get_all_contacts(db: "Session") -> list[_sch.Contact]:
     contacts = db.query(_mds.Contact).all()
-    return list(map(_sch.Contact.from_orm, contacts))
+    return list(map(_sch.Contact.model_validate, contacts))
 
 
 async def get_contact(contact_id: int, db: "Session"):
@@ -60,6 +60,6 @@ async def update_contact(
     db.commit()
     db.refresh(contact)
 
-    return _sch.Contact.from_orm(contact)
+    return _sch.Contact.model_validate(contact)
 
 

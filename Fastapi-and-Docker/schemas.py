@@ -13,8 +13,7 @@ class Contact(_BaseContact):
     id: int
     date_created: _dt.datetime
 
-    class Config:
-        orm_mode = True
+    model_config = _pyd.ConfigDict(from_attributes=True)
 
 
 class CreateContact(_BaseContact):

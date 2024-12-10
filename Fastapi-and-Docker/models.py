@@ -1,6 +1,7 @@
 import datetime as _dt
 import sqlalchemy as _sql
 import database as _db
+import pydantic as _pyd
 
 class Contact(_db.Base):
     __tablename__ = "contacts"
@@ -10,3 +11,5 @@ class Contact(_db.Base):
     email = _sql.Column(_sql.String, index=True, unique=True)
     phone_number = _sql.Column(_sql.String, index=True, unique=True)
     date_created = _sql.Column(_sql.DateTime, default=_dt.datetime.now)
+
+    model_config = _pyd.ConfigDict(from_attributes=True)
