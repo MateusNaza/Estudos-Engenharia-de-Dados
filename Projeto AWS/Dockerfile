@@ -20,5 +20,8 @@ COPY web_scraper.py /app/
 # Instalação das bibliotecas do arquivo requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Criação da pasta de extração
+RUN mkdir /app/extract
+
 # Comando para rodar o script
 CMD ["python", "web_scraper.py"]

@@ -1,2 +1,6 @@
 beautifulsoup4 
 selenium 
+pandas
+pyarrow
+fastparquet
+requests
