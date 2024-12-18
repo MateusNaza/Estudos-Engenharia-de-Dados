@@ -15,13 +15,13 @@ WORKDIR /app
 
 # Trazendo arquivos para o ambiente do container
 COPY requirements.txt /app/
-COPY web_scraper.py /app/
+COPY *.py /app/
 
 # Instalação das bibliotecas do arquivo requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Criação da pasta de extração
-RUN mkdir /app/extract
+RUN mkdir -p /app/extract/logs
 
 # Comando para rodar o script
-CMD ["python", "web_scraper.py"]
+CMD ["python", "main.py"]
