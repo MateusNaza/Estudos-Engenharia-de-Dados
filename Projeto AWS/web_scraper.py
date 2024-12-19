@@ -38,7 +38,7 @@ def scraping(url, category):
     options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(options=options)
     driver.get(url)
-    wait = WebDriverWait(driver, 3)
+    wait = WebDriverWait(driver, 4)
     i = 0
 
     while i < 100:
