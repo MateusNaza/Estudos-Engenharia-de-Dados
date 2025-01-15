@@ -6,7 +6,7 @@ from datetime import datetime as _date
 _pd.options.display.max_columns = None
 
 # Leitura de dados
-df = _pd.read_json('../../data/data.jsonl', lines=True)
+df = _pd.read_json('../../data/bronze/data.jsonl', lines=True)
 
 # Criação de colunas
 df['_source'] = 'https://lista.mercadolivre.com.br/tenis-corrida-masculino#D[A:tenis%20corrida%20masculino]'
@@ -30,7 +30,7 @@ df['new_price'] = df['new_price_temp'] + df['new_cents'] / 100
 df = df.drop(columns=['old_price_temp', 'new_price_temp', 'old_cents', 'new_cents'])
 
 # Conexão com banco de dados
-conn = _sql.connect('../../data/quotes.db')
+conn = _sql.connect('../../data/silver/quotes.db')
 
 # Salvando no banco de dados
 df.to_sql('mercadolivre_items', conn, if_exists='replace', index=False)
