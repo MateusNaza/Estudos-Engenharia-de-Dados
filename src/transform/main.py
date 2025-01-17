@@ -1,16 +1,16 @@
-import pandas as _pd 
-import sqlite3 as _sql 
-from datetime import datetime as _date
+import pandas as pd 
+import sqlite3 as sql 
+from datetime import datetime 
 
 # Setando pandas para mostrar todas as colunas
-_pd.options.display.max_columns = None
+pd.options.display.max_columns = None
 
 # Leitura de dados
-df = _pd.read_json('../../data/bronze/data.jsonl', lines=True)
+df = pd.read_json('../../data/bronze/data.jsonl', lines=True)
 
 # Criação de colunas
 df['_source'] = 'https://lista.mercadolivre.com.br/tenis-corrida-masculino#D[A:tenis%20corrida%20masculino]'
-df['_datetime'] = _date.now()
+df['_datetime'] = datetime.now()
 
 # Tratando nulos e tipos de dados
 df['old_price_temp'] = df['old_price'].fillna(0).astype('float64')
@@ -30,7 +30,7 @@ df['new_price'] = df['new_price_temp'] + df['new_cents'] / 100
 df = df.drop(columns=['old_price_temp', 'new_price_temp', 'old_cents', 'new_cents'])
 
 # Conexão com banco de dados
-conn = _sql.connect('../../data/silver/quotes.db')
+conn = sql.connect('../../data/silver/quotes.db')
 
 # Salvando no banco de dados
 df.to_sql('mercadolivre_items', conn, if_exists='replace', index=False)
