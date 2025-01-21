@@ -38,5 +38,5 @@ df.to_sql('mercadolivre_items', conn, if_exists='replace', index=False)
 # Encerrando conexão do banco de dados
 conn.close()
 
-print(df)
-print(len(df))
+print('\nDados transformados e armazenados com sucesso para a pasta "data/silver"\n')
+
