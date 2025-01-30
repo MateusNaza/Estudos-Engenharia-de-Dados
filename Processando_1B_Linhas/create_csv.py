@@ -42,20 +42,23 @@ def gerar_dados_teste(num_registros):
     print(f"Criando {arquivo_saida}...")
 
     try:
-        with open(arquivo_saida, 'w', encoding="utf-8") as arquivo:
-            for _ in range(num_registros // tamanho_lote):
-                lote = random.choices(estacoes_10k_max, k=tamanho_lote)
-                linhas = '\n'.join([f"{estacao};{random.uniform(-99.9, 99.9):.1f}" for estacao in lote])
-                arquivo.write(linhas + '\n')
 
-        tamanho_arquivo = os.path.getsize(arquivo_saida)
-        print(f"Arquivo gerado: {arquivo_saida}")
+        dados = ""
+        for _ in range(num_registros // tamanho_lote):
+            lote = random.choices(estacoes_10k_max, k=tamanho_lote)
+            linhas = '\n'.join([f"{estacao};{random.uniform(-99.9, 99.9):.1f}" for estacao in lote])
+            dados += linhas + '\n'
+
+        s3.put_object(Bucket=bucket_name, Key=s3_key, Body=dados.encode('utf-8'))
+
+        tamanho_arquivo = len(dados.encode('utf-8'))
+        print(f"Dados enviados para o bucket '{bucket_name}' com a chave '{s3_key}'.")
         print(f"Tamanho final: {converter_bytes(tamanho_arquivo)}")
         print(f"Tempo decorrido: {formatar_tempo_decorrido(time.time() - inicio_tempo)}")
     except Exception as e:
-        print("Erro ao criar o arquivo:", e)
+        print("Erro ao enviar os dados para o S3:")
 
 
-if __name__ == "__main__":
-    num_registros = 1_000_000_000  # Número de registros parametrizado
-    gerar_dados_teste(num_registros)
+# if __name__ == "__main__":
+#     num_registros = 1_000_000_000  # Número de registros parametrizado
+#     gerar_dados_teste(num_registros)

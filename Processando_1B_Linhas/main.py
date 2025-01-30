@@ -1,8 +1,9 @@
 import boto3
 from botocore.exceptions import ClientError
+import create_csv
 
 '''
-Lembrando que antes de iniciar o código deve-se utilizar o comando bash awsconfigure 
+Lembrando que antes de iniciar o código deve-se utilizar o comando bash aws aconfigure 
 e preencher com os dados de usuário aws
 '''
 session = boto3.Session()
@@ -34,8 +35,8 @@ def create_bucket(bucket_name, region=None):
 
 # ---- Variáveis ----
 
-bucket_name = 'processando_1B_linhas'
-
+bucket_name = 'processando-1bilhao-linhas'
+num_registros = 1_000_000_000
 
 # ---- Criação do Bucket ----
 if not bucket_exists(bucket_name):
@@ -43,6 +44,6 @@ if not bucket_exists(bucket_name):
 
 
 # ---- Inserindo arquivos no Bucket ----
-
+# create_csv.gerar_dados_teste(num_registros)
 
 
