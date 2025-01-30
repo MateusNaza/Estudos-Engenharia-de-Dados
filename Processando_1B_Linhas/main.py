@@ -1,6 +1,10 @@
 import boto3
 from botocore.exceptions import ClientError
 
+'''
+Lembrando que antes de iniciar o código deve-se utilizar o comando bash awsconfigure 
+e preencher com os dados de usuário aws
+'''
 session = boto3.Session()
 s3 = session.client('s3')
 
