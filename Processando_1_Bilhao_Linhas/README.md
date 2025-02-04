@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-Repositório para guardar meus estudos, cada pasta tem seu README específico com um resumo do que foi estudado naquele tópico.
-=======
 # Processamento_1_Bilhao_Linhas
 
 ## Overview
@@ -22,4 +19,3 @@ Para criar o arquivo utilizei o script 'create_csv.py'. Ele acessa um bucket S3 
 Os dados são valores de temperaturas registrados em diversos locais ao redor do mundo. O objetivo é pegar a temperatura mínima e maxima e a média de temperatura de cada um dos locais.
 
 O processamento é feito pela engine do DuckDB, e ocorre no script 'main.py'. Esse script acessa o Bucket contendo vários arquivos .parquet particionados, une todos esses arquivos em uma query SQL que trás o resultado da consulta.
->>>>>>> migracao/main
