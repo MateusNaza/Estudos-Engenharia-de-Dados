@@ -1,40 +1,35 @@
 import duckdb
-import boto3
-from io import BytesIO
+import boto3 
+import time
 
-# Configurar a sessão do boto3
-session = boto3.Session()
-s3 = session.client('s3')
+import aws_utils as util
 
-def read_parquet_from_s3(bucket, prefix):
-    # Listar objetos no bucket S3
-    response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
-    arquivos = response.get('Contents', [])
-    
-    # Lista para armazenar DataFrames
-    dfs = []
-    for arquivo in arquivos:
-        s3_key = arquivo['Key']
-        response = s3.get_object(Bucket=bucket, Key=s3_key)
-        parquet_buffer = BytesIO(response['Body'].read())
-        df = duckdb.read_parquet(parquet_buffer)
-        dfs.append(df)
-    
-    # Combinar DataFrames
-    combined_df = duckdb.concat(dfs)
-    return combined_df
+conn = duckdb.connect() # Iniciando conexão com o duckdb
 
-def create_duckdb():
-    df = read_parquet_from_s3('processando-1bilhao-linhas', 'output/')
-    result = duckdb.sql("""
-        SELECT station,
+# Conexão com aws no duckdb
+conn.execute("INSTALL aws")
+conn.execute("LOAD aws")
+conn.execute("CALL load_aws_credentials()") 
+
+query = """
+SELECT station,
             MIN(temperature) AS min_temperature,
             CAST(AVG(temperature) AS DECIMAL(3,1)) AS mean_temperature,
             MAX(temperature) AS max_temperature
-        FROM df
+        FROM read_parquet(?)
         GROUP BY station
         ORDER BY station
-    """)
-    result.show()
+"""
 
-create_duckdb()
+s3_path = f's3://processando-1bilhao-linhas/output/*.parquet'
+
+start_time = time.time() # Começa a contar a execução
+
+result = conn.execute(query, [s3_path]).fetchdf()
+
+took = time.time() - start_time # Encerra a contagem de tempo de execução
+
+conn.close() # Encerrando conexão com o duckdb
+
+print(result)
+print(f"DuckDB Took: {took:.2f} sec")
