@@ -77,3 +77,11 @@ def save_parquet(lote_dados, bucket_name, s3_key):
         print(f"Dados enviados com sucesso para o bucket '{bucket_name}' com a chave '{s3_key}'.")
     except Exception as e:
         print(f"Erro ao enviar os dados para o S3: {e}")
+
+
+def list_files_from_s3(bucket, prefix):
+    response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+    files = response.get('Contents', [])
+    files_keys =  [file['Key'] for file in files]
+
+    return files_keys

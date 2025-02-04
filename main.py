@@ -1,15 +1,17 @@
 import duckdb
-import time
 import boto3
 from io import BytesIO
 
+# Configurar a sessão do boto3
 session = boto3.Session()
 s3 = session.client('s3')
 
 def read_parquet_from_s3(bucket, prefix):
+    # Listar objetos no bucket S3
     response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
     arquivos = response.get('Contents', [])
     
+    # Lista para armazenar DataFrames
     dfs = []
     for arquivo in arquivos:
         s3_key = arquivo['Key']
@@ -18,6 +20,7 @@ def read_parquet_from_s3(bucket, prefix):
         df = duckdb.read_parquet(parquet_buffer)
         dfs.append(df)
     
+    # Combinar DataFrames
     combined_df = duckdb.concat(dfs)
     return combined_df
 
@@ -34,8 +37,4 @@ def create_duckdb():
     """)
     result.show()
 
-if __name__ == "__main__":
-    start_time = time.time()
-    create_duckdb()
-    took = time.time() - start_time
-    print(f"DuckDB Took: {took:.2f} sec")
+create_duckdb()
